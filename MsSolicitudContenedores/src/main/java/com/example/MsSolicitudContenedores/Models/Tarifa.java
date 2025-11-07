@@ -20,6 +20,10 @@ public class Tarifa {
     @Column(name = "descripcion", length = 100, nullable = false)
     private String descripcion;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo")
+    private TipoTarifa tipo;
+
     @Column(name = "peso_min")
     private Double pesoMin;
 

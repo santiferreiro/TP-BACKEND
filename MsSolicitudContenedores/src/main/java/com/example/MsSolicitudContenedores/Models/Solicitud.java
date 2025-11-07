@@ -29,8 +29,23 @@ public class Solicitud {
     @Column(name = "tiempo_real")
     private Double tiempoReal;
 
+    // 🌍 Coordenadas geográficas (definidas por el cliente)
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "latitud", column = @Column(name = "origen_latitud", nullable = false)),
+            @AttributeOverride(name = "longitud", column = @Column(name = "origen_longitud", nullable = false))
+    })
+    private Ubicacion origen;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "latitud", column = @Column(name = "destino_latitud", nullable = false)),
+            @AttributeOverride(name = "longitud", column = @Column(name = "destino_longitud", nullable = false))
+    })
+    private Ubicacion destino;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = false)
     private EstadoSolicitud estado;
 
     // ---- Relaciones ----
@@ -43,6 +58,9 @@ public class Solicitud {
     private Contenedor contenedor;
 
     @ManyToOne
-    @JoinColumn(name = "id_tarifa", nullable = false)
+    @JoinColumn(name = "id_tarifa")
     private Tarifa tarifa;
+
+    @Column(name = "id_ruta")
+    private Long idRuta;
 }

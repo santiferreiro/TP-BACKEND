@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="MsEnvio" />
+        <module name="MsSolicitudContenedores" />
+        <module name="MsApiGateway" />
+        <module name="MsLogistica" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="MsApiGateway" options="-parameters" />
+      <module name="MsEnvio" options="-parameters" />
+      <module name="MsLogistica" options="-parameters" />
+      <module name="MsSolicitudContenedores" options="-parameters" />
+    </option>
+  </component>
+</project>
