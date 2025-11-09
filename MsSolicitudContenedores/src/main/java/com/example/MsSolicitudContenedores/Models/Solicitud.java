@@ -44,10 +44,6 @@ public class Solicitud {
     })
     private Ubicacion destino;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "estado", nullable = false)
-    private EstadoSolicitud estado;
-
     // ---- Relaciones ----
     @ManyToOne
     @JoinColumn(name = "cliente", nullable = false)

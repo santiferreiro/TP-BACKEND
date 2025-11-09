@@ -3,7 +3,7 @@ package com.example.MsSolicitudContenedores.Service;
 import com.example.MsSolicitudContenedores.Models.Cliente;
 import com.example.MsSolicitudContenedores.Models.Contenedor;
 import com.example.MsSolicitudContenedores.Models.Solicitud;
-import com.example.MsSolicitudContenedores.Models.EstadoSolicitud;
+import com.example.MsSolicitudContenedores.Models.EstadoContenedor;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -46,9 +46,6 @@ public class SolicitudService {
             throw new IllegalArgumentException("Debe especificarse una ubicación de origen y destino.");
         }
 
-        // 3️⃣ Asignamos el estado inicial
-        solicitud.setEstado(EstadoSolicitud.CREADA);
-
         // 4️⃣ Guardamos la solicitud
         return solicitudRepository.save(solicitud);
     }
@@ -66,12 +63,12 @@ public class SolicitudService {
     public List<Solicitud> filtrarSolicitudes(String estado, String dniCliente) {
         // Si vienen ambos parámetros
         if (estado != null && dniCliente != null) {
-            return solicitudRepository.findByEstadoAndCliente_Dni(EstadoSolicitud.valueOf(estado.toUpperCase()), dniCliente);
+            return solicitudRepository.findByEstadoAndCliente_Dni(EstadoContenedor.valueOf(estado.toUpperCase()), dniCliente);
         }
 
         // Si viene solo el estado
         if (estado != null) {
-            return solicitudRepository.findByEstado(EstadoSolicitud.valueOf(estado.toUpperCase()));
+            return solicitudRepository.findByEstado(EstadoContenedor.valueOf(estado.toUpperCase()));
         }
 
         // Si viene solo el cliente

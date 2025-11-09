@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "contenedor")
 @Data
@@ -23,12 +26,15 @@ public class Contenedor {
     @Column(name = "volumen", nullable = false)
     private Double volumen;
 
-    @Column(name = "estado", length = 30)
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    private EstadoContenedor estado;
 
     // ---- Relaciones ----
     @ManyToOne
     @JoinColumn(name = "cliente", nullable = false)
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "contenedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Seguimiento> seguimientos = new ArrayList<>();
 }
 
