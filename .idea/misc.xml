@@ -8,7 +8,14 @@
         <option value="$PROJECT_DIR$/MsEnvio/pom.xml" />
         <option value="$PROJECT_DIR$/MsLogistica/pom.xml" />
         <option value="$PROJECT_DIR$/MsSolicitudContenedores/pom.xml" />
+        <option value="$PROJECT_DIR$/untitled/pom.xml" />
+        <option value="$PROJECT_DIR$/MsGeoApi/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/untitled/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="ms-21" project-jdk-type="JavaSDK">

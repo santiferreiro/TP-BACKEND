@@ -9,15 +9,20 @@
         <outputRelativeToContentRoot value="true" />
         <module name="MsEnvio" />
         <module name="MsSolicitudContenedores" />
+        <module name="MsGeoApi" />
         <module name="MsApiGateway" />
         <module name="MsLogistica" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="untitled" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="MsApiGateway" options="-parameters" />
       <module name="MsEnvio" options="-parameters" />
+      <module name="MsGeoApi" options="-parameters" />
       <module name="MsLogistica" options="-parameters" />
       <module name="MsSolicitudContenedores" options="-parameters" />
     </option>
