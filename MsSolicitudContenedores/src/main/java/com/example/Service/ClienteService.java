@@ -27,6 +27,24 @@ public class ClienteService {
         // Si no existe, lo guardamos y devolvemos el nuevo
         return clienteRepository.save(cliente);
     }
+    public void delete(String dni) {
+        if (!clienteRepository.existsById(dni)) {
+            throw new EntityNotFoundException("Cliente no encontrado con DNI: " + dni);
+        }
+        clienteRepository.deleteById(dni);
+    }
+    public Cliente update(String dni, Cliente clienteActualizado) {
+        Cliente clienteExistente = clienteRepository.findById(dni)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado con DNI: " + dni));
+
+        // Actualizá solo los campos que quieras permitir modificar
+        clienteExistente.setNombre(clienteActualizado.getNombre());
+        clienteExistente.setDni(clienteActualizado.getDni());
+        clienteExistente.setDireccion(clienteActualizado.getDireccion());
+        clienteExistente.setTelefono(clienteActualizado.getTelefono());
+
+        return clienteRepository.save(clienteExistente);
+    }
 
     // GET /api/clientes → obtener todos los clientes
     public List<Cliente> getAll() {

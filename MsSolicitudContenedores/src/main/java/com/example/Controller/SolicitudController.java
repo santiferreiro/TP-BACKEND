@@ -50,4 +50,10 @@ public class SolicitudController {
         List<Solicitud> resultado = service.filtrarSolicitudes(estado, cliente);
         return ResponseEntity.ok(resultado);
     }
+    @PutMapping("/{id}/ruta/{idRuta}")
+    public ResponseEntity<Solicitud> asignarRuta(
+            @PathVariable Long id,
+            @PathVariable Long idRuta) {
+        return ResponseEntity.ok(service.asignarRuta(id, idRuta));
+    }
 }

@@ -49,6 +49,13 @@ public class SolicitudService {
         // 4️⃣ Guardamos la solicitud
         return solicitudRepository.save(solicitud);
     }
+    // Eliminar una solicitud por ID
+    public void delete(Long id) {
+        if (!solicitudRepository.existsById(id)) {
+            throw new EntityNotFoundException("Solicitud no encontrada con ID: " + id);
+        }
+        solicitudRepository.deleteById(id);
+    }
 
     // Listar todas las solicitudes
     public List<Solicitud> getAll() {
@@ -78,5 +85,13 @@ public class SolicitudService {
 
         // Si no viene ningún filtro, devolver todas
         return solicitudRepository.findAll();
+    }
+
+    public Solicitud asignarRuta(Long idSolicitud, Long idRuta) {
+        Solicitud solicitud = solicitudRepository.findById(idSolicitud)
+                .orElseThrow(() -> new EntityNotFoundException("Solicitud no encontrada con ID: " + idSolicitud));
+
+        solicitud.setIdRuta(idRuta);
+        return solicitudRepository.save(solicitud);
     }
 }

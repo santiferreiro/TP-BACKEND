@@ -1,49 +1,29 @@
 package com.example.Service;
 
-
-import com.example.Model.GeoLocalizador;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Locale;
 
 @Service
-@RequiredArgsConstructor
 public class GeoLocalizadorService {
 
-    @Value("${google.maps.apikey}")
-    private String apiKey;
+    private static final String OSRM_URL =
+            "http://localhost:5000/route/v1/driving/%f,%f;%f,%f?overview=false";
 
-    private final RestClient.Builder builder;
+    public double calcularDistanciaKm(double lon1, double lat1, double lon2, double lat2) {
+        String url = String.format(Locale.US, OSRM_URL, lon1, lat1, lon2, lat2);
 
-    public GeoLocalizador calcularDistancia(String origen, String destino) throws Exception {
-        RestClient client = builder
-                .baseUrl("https://maps.googleapis.com/maps/api")
-                .build();
+        RestTemplate restTemplate = new RestTemplate();
+        String response = restTemplate.getForObject(url, String.class);
 
-        String url = "/distancematrix/json?origins=" + origen +
-                "&destinations=" + destino +
-                "&units=metric&key=" + apiKey;
+        JSONObject json = new JSONObject(response);
+        double distanciaMetros = json
+                .getJSONArray("routes")
+                .getJSONObject(0)
+                .getDouble("distance");
 
-        ResponseEntity<String> response = client.get()
-                .uri(url)
-                .retrieve()
-                .toEntity(String.class);
-
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(response.getBody());
-        JsonNode leg = root.path("rows").get(0).path("elements").get(0);
-
-        GeoLocalizador dto = new GeoLocalizador();
-        dto.setOrigen(origen);
-        dto.setDestino(destino);
-        dto.setKilometros(leg.path("distance").path("value").asDouble() / 1000);
-        dto.setDuracionTexto(leg.path("duration").path("text").asText());
-
-        return dto;
+        return distanciaMetros / 1000.0; // convertir a km
     }
 }
-
