@@ -34,4 +34,24 @@ public class TransportistaController {
         Transportista creado = transportistaService.crearTransportista(transportista);
         return ResponseEntity.ok(creado);
     }
+
+    // 1️⃣ INICIAR TRAMO
+    @PutMapping("/{idTransportista}/tramos/{idTramo}/iniciar")
+    public ResponseEntity<String> iniciarTramo(
+            @PathVariable Long idTransportista,
+            @PathVariable Long idTramo) {
+
+        String respuesta = transportistaService.iniciarTramo(idTramo, idTransportista);
+
+        return ResponseEntity.ok(respuesta);
+    }
+    // 2️⃣ FINALIZAR TRAMO
+    @PutMapping("/{idTransportista}/tramos/{idTramo}/finalizar")
+    public ResponseEntity<String> finalizarTramo(
+            @PathVariable Long idTransportista,
+            @PathVariable Long idTramo) {
+
+        String respuesta = transportistaService.finalizarTramo(idTramo, idTransportista);
+        return ResponseEntity.ok(respuesta);
+    }
 }

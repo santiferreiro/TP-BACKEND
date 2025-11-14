@@ -41,4 +41,14 @@ public class CamionController {
         camionService.validarCapacidad(patente, idContenedor);
         return ResponseEntity.ok("✔️ El contenedor es compatible con el camión " + patente);
     }
+    @GetMapping("/{patente}/validar-disponibilidad")
+    public ResponseEntity<String> validarDisponibilidad(@PathVariable String patente) {
+        String mensaje = camionService.validarDisponibilidad(patente);
+        return ResponseEntity.ok(mensaje);
+    }
+    @PutMapping("/{patente}/ocupar")
+    public ResponseEntity<String> ocuparCamion(@PathVariable String patente) {
+        String respuesta = camionService.ocuparCamion(patente);
+        return ResponseEntity.ok(respuesta);
+    }
 }

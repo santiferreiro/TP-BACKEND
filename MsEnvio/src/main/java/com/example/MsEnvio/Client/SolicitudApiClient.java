@@ -10,23 +10,37 @@ public class SolicitudApiClient {
 
     private final RestClient solicitudClient;
 
-    public SolicitudApiClient(RestClient solicitudClient) {
-        this.solicitudClient = solicitudClient;
+    // 💡 BASE_URL del microservicio MsSolicitudContenedores
+    private static final String BASE_URL = "http://localhost:8081";
+
+    public SolicitudApiClient() {
+        this.solicitudClient = RestClient.builder()
+                .baseUrl(BASE_URL)
+                .build();
     }
 
-    // 🔹 Acá vas a agregar los métodos para llamar al microservicio de SolicitudContenedores
+    // 1️⃣ Asignar ruta a solicitud
     public void asignarRuta(Long idSolicitud, Long idRuta) {
-        // URL: POST /api/solicitudes/{id}/asignar-ruta
+
         String uri = "/api/solicitudes/" + idSolicitud + "/asignar-ruta";
 
-        // Cuerpo JSON que se enviará al otro microservicio
         Map<String, Object> requestBody = Map.of("rutaId", idRuta);
 
-        // Envío de la petición POST
         solicitudClient.post()
                 .uri(uri)
                 .body(requestBody)
                 .retrieve()
                 .toBodilessEntity();
+    }
+
+    // 2️⃣ Cambiar estado del contenedor
+    public String cambiarEstadoContenedor(Long idContenedor, String nuevoEstado) {
+
+        String uri = "/api/contenedores/" + idContenedor + "/estado/" + nuevoEstado;
+
+        return solicitudClient.put()
+                .uri(uri)
+                .retrieve()
+                .body(String.class);
     }
 }

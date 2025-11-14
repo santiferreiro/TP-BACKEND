@@ -1,5 +1,6 @@
 package com.example.Controller;
 import com.example.Models.Contenedor;
+import com.example.Models.EstadoContenedor;
 import com.example.Service.ContenedorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import java.util.List;
 public class ContenedorController {
 
     private final ContenedorService service;
+
 
     public ContenedorController(ContenedorService service) {
         this.service = service;
@@ -34,5 +36,13 @@ public class ContenedorController {
     public ResponseEntity<Contenedor> crearContenedor(@RequestBody Contenedor contenedor) {
         Contenedor nuevo = service.create(contenedor);
         return ResponseEntity.ok(nuevo);
+    }
+    @PutMapping("/{id}/estado/{nuevoEstado}")
+    public ResponseEntity<String> cambiarEstado(
+            @PathVariable Long id,
+            @PathVariable EstadoContenedor nuevoEstado) {
+
+        String respuesta = service.cambiarEstado(id, nuevoEstado);
+        return ResponseEntity.ok(respuesta);
     }
 }

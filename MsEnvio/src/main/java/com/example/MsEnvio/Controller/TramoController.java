@@ -1,5 +1,6 @@
 package com.example.MsEnvio.Controller;
 
+import com.example.MsEnvio.Models.EstadoTramo;
 import com.example.MsEnvio.Models.Tramo;
 import com.example.MsEnvio.Service.TramoService;
 import org.springframework.http.ResponseEntity;
@@ -48,4 +49,32 @@ public class TramoController {
         return ResponseEntity.ok(creado);
     }
 
+    @PutMapping("/{idTramo}/asignar-camion/{patente}/{idContenedor}")
+    public ResponseEntity<String> asignarCamion(
+            @PathVariable Long idTramo,
+            @PathVariable String patente,
+            @PathVariable Long idContenedor) {
+
+        String respuesta = tramoService.asignarCamionATramo(patente, idContenedor, idTramo);
+        return ResponseEntity.ok(respuesta);
+    }
+
+    @GetMapping("/{idTramo}/validar-transportista/{idTransportista}")
+    public ResponseEntity<Boolean> validarTransportista(
+            @PathVariable Long idTramo,
+            @PathVariable Long idTransportista) {
+
+        boolean valido = tramoService.validarTransportista(idTramo, idTransportista);
+
+        return ResponseEntity.ok(valido);
+    }
+
+    @PutMapping("/{idTramo}/estado/{nuevoEstado}")
+    public ResponseEntity<String> cambiarEstado(
+            @PathVariable Long idTramo,
+            @PathVariable EstadoTramo nuevoEstado) {   // 👈 acá Spring hace la conversión automática
+
+        String respuesta = tramoService.cambiarEstado(idTramo, nuevoEstado);
+        return ResponseEntity.ok(respuesta);
+    }
 }

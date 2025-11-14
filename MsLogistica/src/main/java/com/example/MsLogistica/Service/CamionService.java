@@ -25,6 +25,19 @@ public class CamionService {
         return camionRepository.findById(patente)
                 .orElse(null);
     }
+    public String validarDisponibilidad(String patente) {
+
+        Camion camion = buscarPorPatente(patente);
+
+        if (camion.getDisponible() == null || !camion.getDisponible()) {
+            throw new IllegalArgumentException(
+                    "El camión con patente " + patente + " NO está disponible."
+            );
+        }
+
+        System.out.println("✔️ El camión " + patente + " está DISPONIBLE.");
+        return "El camión está disponible";
+    }
 
     public void validarCapacidad(String patente, Long idContenedor) {
         // 1️⃣ Buscar camión
@@ -59,6 +72,16 @@ public class CamionService {
         }
 
         System.out.println("✔️ Validación exitosa: el contenedor es compatible con el camión " + patente);
+    }
+    public String ocuparCamion(String patente) {
+        Camion camion = buscarPorPatente(patente);
+        // Cambiar disponibilidad
+        camion.setDisponible(false);
+        // Guardar cambios
+        camionRepository.save(camion);
+        System.out.println("✔️ Camión " + patente + " ahora está OCUPADO.");
+
+        return "Camión " + patente + " marcado como OCUPADO";
     }
 
 

@@ -46,35 +46,6 @@ public class ContenedorService {
         return nuevoContenedor;
     }
 
-    public Contenedor update(Long id, Contenedor contenedorActualizado) {
-        Contenedor existente = contenedorRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Contenedor no encontrado con ID: " + id));
-
-        // Actualizá los campos que correspondan
-        existente.setPeso(contenedorActualizado.getPeso());
-        existente.setVolumen(contenedorActualizado.getVolumen());
-        existente.setEstado(contenedorActualizado.getEstado());
-
-        Contenedor contenedorModificado = contenedorRepository.save(existente);
-
-        // Registrar el cambio de estado en Seguimiento (opcional, si cambia estado)
-        Seguimiento nuevoSeguimiento = new Seguimiento();
-        nuevoSeguimiento.setEstado(contenedorModificado.getEstado());
-        nuevoSeguimiento.setFechaRegistro(LocalDateTime.now());
-        nuevoSeguimiento.setContenedor(contenedorModificado);
-        seguimientoRepository.save(nuevoSeguimiento);
-
-        return contenedorModificado;
-    }
-
-    // Eliminar un contenedor por su ID
-    public void delete(Long id) {
-        if (!contenedorRepository.existsById(id)) {
-            throw new EntityNotFoundException("Contenedor no encontrado con ID: " + id);
-        }
-        contenedorRepository.deleteById(id);
-    }
-
     // Listar todos los contenedores
     public List<Contenedor> getAll() {
         return contenedorRepository.findAll();
@@ -84,4 +55,16 @@ public class ContenedorService {
         return contenedorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Contenedor no encontrado con ID: " + id));
     }
+
+    public String cambiarEstado(Long idContenedor, EstadoContenedor nuevoEstado) {
+
+        Contenedor contenedor = getById(idContenedor);
+        contenedor.setEstado(nuevoEstado);
+        contenedorRepository.save(contenedor);
+
+        System.out.println("✔️ Estado del contenedor " + idContenedor + " cambiado a " + nuevoEstado);
+
+        return "Estado del contenedor cambiado a " + nuevoEstado;
+    }
+
 }
