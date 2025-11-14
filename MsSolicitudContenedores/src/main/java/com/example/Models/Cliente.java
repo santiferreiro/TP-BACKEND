@@ -1,5 +1,6 @@
 package com.example.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,8 +29,7 @@ public class Cliente {
 
     // ---- Relaciones ----
     @OneToMany(mappedBy = "cliente")
+    @JsonBackReference
     private List<Solicitud> solicitudes;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<Contenedor> contenedores;
 }

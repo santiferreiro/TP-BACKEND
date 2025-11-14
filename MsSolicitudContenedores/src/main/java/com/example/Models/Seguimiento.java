@@ -1,6 +1,7 @@
 package com.example.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,6 @@ public class Seguimiento {
 
     @ManyToOne
     @JoinColumn(name = "contenedor_id", nullable = false)
+    @JsonIgnore
     private Contenedor contenedor;
 }

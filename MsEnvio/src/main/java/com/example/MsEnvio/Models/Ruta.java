@@ -1,5 +1,6 @@
 package com.example.MsEnvio.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -21,5 +22,6 @@ public class Ruta {
 
     // Relación 1:N con Tramo
     @OneToMany(mappedBy = "ruta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "ruta-tramos")
     private List<Tramo> tramos;
 }

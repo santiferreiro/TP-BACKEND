@@ -1,5 +1,7 @@
 package com.example.MsEnvio.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -39,6 +41,9 @@ public class Tramo {
     private Double costoAproximado;
     private Double costoReal;
 
+    private Double tiempoEstimado;
+    private Double tiempoRealSegundos;
+
     private LocalDateTime fechaHoraInicio;
     private LocalDateTime fechaHoraFin;
 
@@ -47,5 +52,6 @@ public class Tramo {
     // Relación con Ruta (1 Ruta -> N Tramos)
     @ManyToOne
     @JoinColumn(name = "ruta_id")
+    @JsonBackReference(value = "ruta-tramos")
     private Ruta ruta;
 }

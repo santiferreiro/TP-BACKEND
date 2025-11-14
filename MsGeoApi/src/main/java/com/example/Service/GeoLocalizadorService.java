@@ -1,29 +1,53 @@
 package com.example.Service;
 
-import org.json.JSONObject;
+import com.example.Dto.RutaTentativa;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Locale;
 
 @Service
 public class GeoLocalizadorService {
 
+    private final RestClient restClient = RestClient.create();
+
     private static final String OSRM_URL =
-            "http://localhost:5000/route/v1/driving/%f,%f;%f,%f?overview=false";
+            "http://localhost:5000/route/v1/driving/%f,%f;%f,%f?overview=false&steps=false";
 
-    public double calcularDistanciaKm(double lon1, double lat1, double lon2, double lat2) {
-        String url = String.format(Locale.US, OSRM_URL, lon1, lat1, lon2, lat2);
+    public RutaTentativa obtenerRutaTentativa(
+            double origenLat, double origenLon,
+            double destinoLat, double destinoLon) {
 
-        RestTemplate restTemplate = new RestTemplate();
-        String response = restTemplate.getForObject(url, String.class);
+        // Forzar Locale.US para que los decimales usen punto (OSRM requiere puntos)
+        String url = String.format(
+                Locale.US,
+                OSRM_URL,
+                origenLat, origenLon,  // lon,lat
+                 destinoLat,destinoLon  // lon,lat
+        );
 
-        JSONObject json = new JSONObject(response);
-        double distanciaMetros = json
-                .getJSONArray("routes")
-                .getJSONObject(0)
-                .getDouble("distance");
+        Map<String, Object> response = restClient.get()
+                .uri(url)
+                .retrieve()
+                .body(Map.class);
 
-        return distanciaMetros / 1000.0; // convertir a km
+        Map<String, Object> ruta = ((List<Map<String, Object>>) response.get("routes"))
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("OSRM no devolvió rutas"));
+
+        double distancia = ((Number) ruta.get("distance")).doubleValue();
+        double duracion = ((Number) ruta.get("duration")).doubleValue();
+
+        return RutaTentativa.builder()
+                .origenLat(origenLat)
+                .origenLon(origenLon)
+                .destinoLat(destinoLat)
+                .destinoLon(destinoLon)
+                .distanciaMetros(distancia)
+                .tiempoSegundos(duracion)
+                .build();
     }
 }

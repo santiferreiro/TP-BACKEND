@@ -1,27 +1,29 @@
 package com.example.Controller;
 
-import com.example.Dto.DistanciaResponse;
+import com.example.Dto.RutaTentativa;
 import com.example.Service.GeoLocalizadorService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/rutas")
+@RequestMapping("/geo")
 public class GeoLocalizadorController {
 
-    private final GeoLocalizadorService geoLocalizadorService;
+    private final GeoLocalizadorService service;
 
-    public GeoLocalizadorController(GeoLocalizadorService geoLocalizadorService) {
-        this.geoLocalizadorService = geoLocalizadorService;
+    public GeoLocalizadorController(GeoLocalizadorService service) {
+        this.service = service;
     }
 
-    @GetMapping("/distancia")
-    public ResponseEntity<DistanciaResponse> obtenerDistancia(
-            @RequestParam double lon1, @RequestParam double lat1,
-            @RequestParam double lon2, @RequestParam double lat2) {
+    @GetMapping("/ruta-tentativa")
+    public RutaTentativa obtenerRutaTentativa(
+            @RequestParam double origenLat,
+            @RequestParam double origenLon,
+            @RequestParam double destinoLat,
+            @RequestParam double destinoLon) {
 
-        double distanciaKm = Math.round(geoLocalizadorService.calcularDistanciaKm(lon1, lat1, lon2, lat2) * 100.0) / 100.0;
-        DistanciaResponse respuesta = new DistanciaResponse(distanciaKm);
-        return ResponseEntity.ok(respuesta);
+        return service.obtenerRutaTentativa(
+                origenLat, origenLon,
+                destinoLat, destinoLon
+        );
     }
 }

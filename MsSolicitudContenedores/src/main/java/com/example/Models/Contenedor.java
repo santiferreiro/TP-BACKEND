@@ -1,5 +1,6 @@
 package com.example.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,9 +33,11 @@ public class Contenedor {
     // ---- Relaciones ----
     @ManyToOne
     @JoinColumn(name = "cliente", nullable = false)
+    @JsonIgnore
     private Cliente cliente;
 
     @OneToMany(mappedBy = "contenedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Seguimiento> seguimientos = new ArrayList<>();
 }
 

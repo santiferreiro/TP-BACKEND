@@ -24,21 +24,28 @@ public class ContenedorService {
     }
     // Crear un nuevo contenedor
     public Contenedor create(Contenedor contenedor) {
-        // Lógica simple: siempre crear un nuevo contenedor
+
+        // Estado inicial
         contenedor.setEstado(EstadoContenedor.CREADO);
+
+        // Primero guardás el contenedor
         Contenedor nuevoContenedor = contenedorRepository.save(contenedor);
 
-        // Creamos el registro de seguimiento inicial
+        // Crear seguimiento inicial
         Seguimiento seguimientoInicial = new Seguimiento();
         seguimientoInicial.setEstado(EstadoContenedor.CREADO);
         seguimientoInicial.setFechaRegistro(LocalDateTime.now());
-        seguimientoInicial.setContenedor(nuevoContenedor);
+        seguimientoInicial.setContenedor(nuevoContenedor); // 🔥 CLAVE
 
-        // Persistimos el seguimiento
+        // 🔥 Mantener relación bidireccional
+        nuevoContenedor.getSeguimientos().add(seguimientoInicial);
+
+        // Guardar seguimiento
         seguimientoRepository.save(seguimientoInicial);
 
         return nuevoContenedor;
     }
+
     public Contenedor update(Long id, Contenedor contenedorActualizado) {
         Contenedor existente = contenedorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Contenedor no encontrado con ID: " + id));

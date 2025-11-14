@@ -1,5 +1,6 @@
 package com.example.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,16 +47,12 @@ public class Solicitud {
 
     // ---- Relaciones ----
     @ManyToOne
-    @JoinColumn(name = "cliente", nullable = false)
+    @JoinColumn(name = "cliente")
     private Cliente cliente;
 
     @OneToOne
-    @JoinColumn(name = "id_contenedor", nullable = false)
+    @JoinColumn(name = "id_contenedor")
     private Contenedor contenedor;
-
-    @ManyToOne
-    @JoinColumn(name = "id_tarifa")
-    private Tarifa tarifa;
 
     @Column(name = "id_ruta")
     private Long idRuta;
