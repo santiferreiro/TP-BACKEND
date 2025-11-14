@@ -77,4 +77,15 @@ public class TramoController {
         String respuesta = tramoService.cambiarEstado(idTramo, nuevoEstado);
         return ResponseEntity.ok(respuesta);
     }
+    @PutMapping("/{id}/inicio")
+    public ResponseEntity<String> iniciarTramo(@PathVariable Long id) {
+        tramoService.fechaInicio(id);
+        return ResponseEntity.ok("Tramo iniciado correctamente");
+    }
+
+    @PutMapping("/{id}/fin")
+    public ResponseEntity<String> finalizarTramo(@PathVariable Long id) {
+        tramoService.fechaFin(id);
+        return ResponseEntity.ok("Tramo finalizado correctamente");
+    }
 }

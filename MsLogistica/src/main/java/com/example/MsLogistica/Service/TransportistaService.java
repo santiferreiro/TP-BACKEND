@@ -46,6 +46,7 @@ public class TransportistaService {
         // 3️⃣ Cambiar estado del tramo a INICIADO
         envioApiClient.cambiarEstadoTramo(idTramo, "INICIADO");
         System.out.println("✔️ Estado del tramo actualizado a INICIADO.");
+        envioApiClient.iniciarTramo(idTramo);
 
         return "✔️ Tramo " + idTramo + " iniciado correctamente por el transportista " + idTransportista;
     }
@@ -67,6 +68,7 @@ public class TransportistaService {
         // 3️⃣ Cambiar estado a FINALIZADO
         envioApiClient.cambiarEstadoTramo(idTramo, "FINALIZADO");
         System.out.println("✔️ Estado del tramo actualizado a FINALIZADO.");
+        envioApiClient.finalizarTramo(idTramo);
 
         return "✔️ Tramo " + idTramo + " finalizado correctamente por el transportista " + idTransportista;
     }

@@ -43,4 +43,21 @@ public class EnvioApiClient {
                 .retrieve()
                 .body(String.class);
     }
+    // 4️⃣ INICIAR TRAMO (setea fechaInicio)
+    public void iniciarTramo(Long idTramo) {
+        String uri = "/api/tramos/" + idTramo + "/inicio";
+        envioClient.put()
+                .uri(uri)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    // 5️⃣ FINALIZAR TRAMO (setea fechaFin)
+    public void finalizarTramo(Long idTramo) {
+        String uri = "/api/tramos/" + idTramo + "/fin";
+        envioClient.put()
+                .uri(uri)
+                .retrieve()
+                .toBodilessEntity();
+    }
 }

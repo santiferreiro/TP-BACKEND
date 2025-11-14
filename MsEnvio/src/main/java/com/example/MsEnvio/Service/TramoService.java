@@ -10,6 +10,7 @@ import com.example.MsEnvio.Repository.RutaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -112,7 +113,21 @@ public class TramoService {
 
         return "✔️ Estado del tramo actualizado a " + nuevoEstado;
     }
+    public void fechaInicio(Long idTramo) {
+        Tramo tramo = tramoRepository.findById(idTramo)
+                .orElseThrow(() -> new EntityNotFoundException("Tramo no encontrado"));
 
+        tramo.setFechaHoraInicio(LocalDateTime.now());
+        tramoRepository.save(tramo);
+    }
+
+    public void fechaFin(Long idTramo) {
+        Tramo tramo = tramoRepository.findById(idTramo)
+                .orElseThrow(() -> new EntityNotFoundException("Tramo no encontrado"));
+
+        tramo.setFechaHoraFin(LocalDateTime.now());
+        tramoRepository.save(tramo);
+    }
 
 
 
