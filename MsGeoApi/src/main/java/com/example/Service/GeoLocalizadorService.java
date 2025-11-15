@@ -50,4 +50,32 @@ public class GeoLocalizadorService {
                 .tiempoSegundos(duracion)
                 .build();
     }
+
+    public double calcularDistancia(
+            double origenLat, double origenLon,
+            double destinoLat, double destinoLon
+    ) {
+        // OSRM usa formato LON,LAT → ATENCIÓN AL ORDEN
+        String url = String.format(
+                Locale.US,
+                OSRM_URL,
+                origenLat, origenLon,  // lon,lat
+                destinoLat,destinoLon  // lon,lat
+        );
+        // Llamada a OSRM
+        Map response = restClient.get()
+                .uri(url)
+                .retrieve()
+                .body(Map.class);
+
+        // routes[0].distance → viene en METROS
+        List routes = (List) response.get("routes");
+        Map route0 = (Map) routes.get(0);
+
+        double distanciaMetros = ((Number) route0.get("distance")).doubleValue();
+
+        // Convertimos a kilómetros
+        return distanciaMetros / 1000.0;
+    }
+
 }

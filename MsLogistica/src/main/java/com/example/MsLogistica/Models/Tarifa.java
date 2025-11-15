@@ -25,4 +25,7 @@ public class Tarifa {
     private Double costoPorKMBase;
     private Double costoLitroCombustible;
     private Double costoEstadia;
+
+    private Double costoPorTramo;   // 🔥 nuevo campo
 }
+

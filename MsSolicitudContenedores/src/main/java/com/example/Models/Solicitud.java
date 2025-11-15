@@ -56,4 +56,8 @@ public class Solicitud {
 
     @Column(name = "id_ruta")
     private Long idRuta;
+
+    // 🔥 NUEVO: Tarifa seleccionada para esta solicitud
+    @Column(name = "id_tarifa")
+    private Long idTarifa;
 }

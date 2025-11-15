@@ -3,6 +3,7 @@ package com.example.Controller;
 
 
 
+import com.example.DTO.TramoDTO;
 import com.example.Models.Solicitud;
 import com.example.Service.SolicitudService;
 import org.springframework.http.ResponseEntity;
@@ -55,5 +56,22 @@ public class SolicitudController {
             @PathVariable Long id,
             @PathVariable Long idRuta) {
         return ResponseEntity.ok(service.asignarRuta(id, idRuta));
+    }
+
+    @GetMapping("/{idSolicitud}/estimar-costo")
+    public Double estimarCosto(@PathVariable Long idSolicitud) {
+        return service.estimarCostoTotal(idSolicitud);
+    }
+    @PutMapping("/{idSolicitud}/tarifa/{idTarifa}")
+    public Solicitud asignarTarifa(
+            @PathVariable Long idSolicitud,
+            @PathVariable Long idTarifa
+    ) {
+        return service.asignarTarifa(idSolicitud, idTarifa);
+    }
+    @GetMapping("/{idSolicitud}/tramos")
+    public ResponseEntity<List<TramoDTO>> verTramos(@PathVariable Long idSolicitud) {
+        List<TramoDTO> tramos = service.verTramos(idSolicitud);
+        return ResponseEntity.ok(tramos);
     }
 }
