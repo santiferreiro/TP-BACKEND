@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+
+  api-gateway:
+    build: ./MsApiGateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ms-solicitud
+      - ms-envio
+      - ms-logistica
+      - ms-geo
+    networks:
+      - backend
+
+  ms-solicitud:
+    build: ./MsSolicitudContenedores
+    container_name: ms-solicitud
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+
+  ms-envio:
+    build: ./MsEnvio
+    container_name: ms-envio
+    ports:
+      - "8083:8083"
+    networks:
+      - backend
+
+  ms-logistica:
+    build: ./MsLogistica
+    container_name: ms-logistica
+    ports:
+      - "8082:8082"
+    networks:
+      - backend
+
+  ms-geo:
+    build: ./MsGeoApi
+    container_name: ms-geo
+    ports:
+      - "8084:8084"
+    networks:
+      - backend
+
+  osrm:
+    image: osrm/osrm-backend
+    container_name: osrm
+    command: "osrm-routed /data/argentina-latest.osrm"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./osrm-data:/data
+    networks:
+      - backend
+
+networks:
+  backend:

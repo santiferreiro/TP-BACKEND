@@ -1,31 +1,34 @@
 package com.example.Service;
 
 import com.example.Dto.RutaTentativa;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Locale;
+import java.util.Map;
 
 @Service
 public class GeoLocalizadorService {
 
     private final RestClient restClient = RestClient.create();
 
-    private static final String OSRM_URL =
-            "http://localhost:5000/route/v1/driving/%f,%f;%f,%f?overview=false&steps=false";
+    // Se lee desde application.properties
+    @Value("${osrm.url}")
+    private String osrmBaseUrl;
 
     public RutaTentativa obtenerRutaTentativa(
             double origenLat, double origenLon,
             double destinoLat, double destinoLon) {
 
-        // Forzar Locale.US para que los decimales usen punto (OSRM requiere puntos)
+        // IMPORTANTE: OSRM usa formato → LON,LAT
         String url = String.format(
                 Locale.US,
-                OSRM_URL,
-                origenLat, origenLon,  // lon,lat
-                 destinoLat,destinoLon  // lon,lat
+                "%s/route/v1/driving/%.6f,%.6f;%.6f,%.6f?overview=false&steps=false",
+                osrmBaseUrl,
+                origenLon, origenLat,        // lon,lat
+                destinoLon, destinoLat       // lon,lat
         );
 
         Map<String, Object> response = restClient.get()
@@ -53,29 +56,26 @@ public class GeoLocalizadorService {
 
     public double calcularDistancia(
             double origenLat, double origenLon,
-            double destinoLat, double destinoLon
-    ) {
-        // OSRM usa formato LON,LAT → ATENCIÓN AL ORDEN
+            double destinoLat, double destinoLon) {
+
         String url = String.format(
                 Locale.US,
-                OSRM_URL,
-                origenLat, origenLon,  // lon,lat
-                destinoLat,destinoLon  // lon,lat
+                "%s/route/v1/driving/%.6f,%.6f;%.6f,%.6f?overview=false&steps=false",
+                osrmBaseUrl,
+                origenLon, origenLat,     // lon,lat
+                destinoLon, destinoLat    // lon,lat
         );
-        // Llamada a OSRM
+
         Map response = restClient.get()
                 .uri(url)
                 .retrieve()
                 .body(Map.class);
 
-        // routes[0].distance → viene en METROS
         List routes = (List) response.get("routes");
         Map route0 = (Map) routes.get(0);
 
         double distanciaMetros = ((Number) route0.get("distance")).doubleValue();
 
-        // Convertimos a kilómetros
         return distanciaMetros / 1000.0;
     }
-
 }

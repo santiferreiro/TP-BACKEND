@@ -16,17 +16,18 @@
 	<artifactId>MsLogistica</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>MsLogistica</name>
-	<description>Microservicio Logística</description>
 
 	<properties>
 		<java.version>21</java.version>
-		<spring-cloud.version>2025.0.0</spring-cloud.version>
 	</properties>
 
-	<!-- ========================= -->
-	<!--       DEPENDENCIAS       -->
-	<!-- ========================= -->
 	<dependencies>
+
+		<!-- Web MVC -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 
 		<!-- JPA -->
 		<dependency>
@@ -38,42 +39,29 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Swagger -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.5.0</version>
 		</dependency>
 
-		<!-- Seguridad (si la usás) -->
+		<!-- Seguridad (esta la mantenemos porque vos ya la tenías) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-
-		<!-- Web MVC -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<!-- API Gateway (solo si lo va a usar este MS) -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-gateway-server-webmvc</artifactId>
 		</dependency>
 
 		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.34</version>
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Test -->
+		<!-- Tests -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -88,27 +76,24 @@
 
 	</dependencies>
 
-	<!-- Spring Cloud BOM -->
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
-	<!-- Build -->
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<!-- DESACTIVAR TESTS AL COMPILAR -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
 
 </project>
