@@ -35,23 +35,24 @@ public class TransportistaController {
         return ResponseEntity.ok(creado);
     }
 
-    // 1️⃣ INICIAR TRAMO
-    @PutMapping("/{idTransportista}/tramos/{idTramo}/iniciar")
+    @PutMapping("/{idTransportista}/tramos/{idTramo}/iniciar/{idContenedor}")
     public ResponseEntity<String> iniciarTramo(
             @PathVariable Long idTransportista,
-            @PathVariable Long idTramo) {
+            @PathVariable Long idTramo,
+            @PathVariable Long idContenedor) {
 
-        String respuesta = transportistaService.iniciarTramo(idTramo, idTransportista);
-
+        String respuesta = transportistaService.iniciarTramo(idTramo, idTransportista, idContenedor);
         return ResponseEntity.ok(respuesta);
     }
-    // 2️⃣ FINALIZAR TRAMO
-    @PutMapping("/{idTransportista}/tramos/{idTramo}/finalizar")
+
+    @PutMapping("/{idTransportista}/tramos/{idTramo}/finalizar/{idContenedor}")
     public ResponseEntity<String> finalizarTramo(
             @PathVariable Long idTransportista,
-            @PathVariable Long idTramo) {
+            @PathVariable Long idTramo,
+            @PathVariable Long idContenedor) {
 
-        String respuesta = transportistaService.finalizarTramo(idTramo, idTransportista);
+        String respuesta = transportistaService.finalizarTramo(idTramo, idTransportista, idContenedor);
         return ResponseEntity.ok(respuesta);
     }
+
 }

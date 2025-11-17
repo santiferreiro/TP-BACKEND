@@ -11,12 +11,23 @@ public class SolicitudApiClient {
     private final RestClient restClient = RestClient.create();
 
     // ESTA ES LA URL CORRECTA
-    private static final String BASE_URL = "http://localhost:8081/api/contenedores/";
+    private static final String BASE_URL = "http://ms-solicitud:8081/api/contenedores/";
+
 
     public ContenedorDTO obtenerContenedor(Long idContenedor) {
         return restClient.get()
                 .uri(BASE_URL + idContenedor)
                 .retrieve()
                 .body(ContenedorDTO.class);
+    }
+    // 2️⃣ Cambiar estado del contenedor
+    public String cambiarEstadoContenedor(Long idContenedor, String nuevoEstado) {
+
+        String uri = BASE_URL + idContenedor + "/estado/" + nuevoEstado;
+
+        return restClient.put()
+                .uri(uri)
+                .retrieve()
+                .body(String.class);
     }
 }

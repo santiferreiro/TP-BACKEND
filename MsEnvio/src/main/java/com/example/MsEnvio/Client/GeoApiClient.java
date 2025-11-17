@@ -12,7 +12,7 @@ public class GeoApiClient {
     private final RestClient restClient = RestClient.create();
 
     private static final String GEO_API_URL =
-            "http://localhost:8084/geo/ruta-tentativa?origenLat=%f&origenLon=%f&destinoLat=%f&destinoLon=%f";
+            "http://ms-geo_api:8084/geo/ruta-tentativa?origenLat=%f&origenLon=%f&destinoLat=%f&destinoLon=%f";
 
     public RutaTentativaDTO obtenerRutaTentativa(
             double latOrigen, double lonOrigen,

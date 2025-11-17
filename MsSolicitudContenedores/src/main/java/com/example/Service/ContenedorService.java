@@ -15,34 +15,19 @@ import java.util.List;
 public class ContenedorService {
 
     private final ContenedorRepository contenedorRepository;
-    private final SeguimientoRepository seguimientoRepository;
+
+    private final SeguimientoService seguimientoService;
 
     public ContenedorService(ContenedorRepository contenedorRepository,
-                             SeguimientoRepository seguimientoRepository) {
+                             SeguimientoService seguimientoService) {
         this.contenedorRepository = contenedorRepository;
-        this.seguimientoRepository = seguimientoRepository;
+        this.seguimientoService = seguimientoService;
     }
     // Crear un nuevo contenedor
     public Contenedor create(Contenedor contenedor) {
-
-        // Estado inicial
-        contenedor.setEstado(EstadoContenedor.CREADO);
-
         // Primero guardás el contenedor
         Contenedor nuevoContenedor = contenedorRepository.save(contenedor);
-
-        // Crear seguimiento inicial
-        Seguimiento seguimientoInicial = new Seguimiento();
-        seguimientoInicial.setEstado(EstadoContenedor.CREADO);
-        seguimientoInicial.setFechaRegistro(LocalDateTime.now());
-        seguimientoInicial.setContenedor(nuevoContenedor); // 🔥 CLAVE
-
-        // 🔥 Mantener relación bidireccional
-        nuevoContenedor.getSeguimientos().add(seguimientoInicial);
-
-        // Guardar seguimiento
-        seguimientoRepository.save(seguimientoInicial);
-
+        cambiarEstado(nuevoContenedor.getIdContenedor(), EstadoContenedor.CREADO);
         return nuevoContenedor;
     }
 
@@ -61,9 +46,8 @@ public class ContenedorService {
         Contenedor contenedor = getById(idContenedor);
         contenedor.setEstado(nuevoEstado);
         contenedorRepository.save(contenedor);
-
+        seguimientoService.crearSeguimiento(idContenedor ,nuevoEstado);
         System.out.println("✔️ Estado del contenedor " + idContenedor + " cambiado a " + nuevoEstado);
-
         return "Estado del contenedor cambiado a " + nuevoEstado;
     }
 

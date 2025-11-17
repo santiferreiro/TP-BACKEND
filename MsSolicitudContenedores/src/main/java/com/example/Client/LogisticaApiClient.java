@@ -10,7 +10,8 @@ public class LogisticaApiClient {
 
     private final RestClient restClient = RestClient.create();
 
-    private static final String BASE_URL = "http://localhost:8082";
+    private static final String BASE_URL = "http://ms-logistica:8082";
+
 
     public TarifaDTO getTarifaById(Long idTarifa) {
         return restClient.get()

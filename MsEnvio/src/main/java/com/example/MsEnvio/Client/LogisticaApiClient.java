@@ -9,7 +9,7 @@ public class LogisticaApiClient {
 
     private final RestClient restClient = RestClient.create();
 
-    private static final String BASE_URL = "http://localhost:8082/camiones/";
+    private static final String BASE_URL = "http://ms-logistica:8082/camiones/";
 
     // 👉 VALIDAR CAPACIDAD
     public String validarCapacidad(String patente, Long idContenedor) {

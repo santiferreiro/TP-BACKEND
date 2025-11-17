@@ -11,7 +11,8 @@ public class EnvioApiClient {
 
     private final RestClient restClient = RestClient.create();
 
-    private static final String BASE_URL = "http://localhost:8083/api";
+    private static final String BASE_URL = "http://ms-envio:8083/api";
+
     // Cambialo según puerto real de MsEnvio
 
     public RutaDTO getRutaById(Long idRuta) {

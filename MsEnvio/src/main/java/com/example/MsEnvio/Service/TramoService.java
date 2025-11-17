@@ -46,7 +46,7 @@ public class TramoService {
         tramo.setRuta(ruta);
         return tramoRepository.save(tramo);
     }
-    public String asignarCamionATramo(String patente, Long idContenedor, Long idTramo) {
+    public String asignarCamionATramo(String patente, Long idTramo,Long idContenedor) {
 
         // Validar disponibilidad del camión
         String validacionDisponibilidad = logisticaApiClient.validarDisponibilidad(patente);
@@ -63,6 +63,7 @@ public class TramoService {
         tramo.setCamion(patente);
         // Paso 5: cambiar estado del tramo -> ASIGNADO (después)
         tramo.setEstado(EstadoTramo.ASIGNADO);
+
         // Paso 6: cambiar estado del camión -> OCUPADO (después)
         logisticaApiClient.ocuparCamion(patente);
         // Paso 7: cambiar estado del contenedor -> ASIGNADO (después)
@@ -117,8 +118,14 @@ public class TramoService {
         Tramo tramo = tramoRepository.findById(idTramo)
                 .orElseThrow(() -> new EntityNotFoundException("Tramo no encontrado"));
 
+        // Registrar fecha de inicio
         tramo.setFechaHoraInicio(LocalDateTime.now());
         tramoRepository.save(tramo);
+
+        // Cambiar estado a INICIADO
+        cambiarEstado(idTramo, EstadoTramo.INICIADO);
+
+
     }
 
     public void fechaFin(Long idTramo) {
@@ -127,6 +134,7 @@ public class TramoService {
 
         tramo.setFechaHoraFin(LocalDateTime.now());
         tramoRepository.save(tramo);
+        cambiarEstado(idTramo, EstadoTramo.FINALIZADO);
     }
 
 

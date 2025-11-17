@@ -11,7 +11,8 @@ public class SolicitudApiClient {
     private final RestClient solicitudClient;
 
     // 💡 BASE_URL del microservicio MsSolicitudContenedores
-    private static final String BASE_URL = "http://localhost:8081";
+    private static final String BASE_URL = "http://ms-solicitud:8081";
+
 
     public SolicitudApiClient() {
         this.solicitudClient = RestClient.builder()

@@ -7,7 +7,7 @@ import org.springframework.web.client.RestClient;
 @Component
 public class EnvioApiClient {
 
-    private static final String BASE_URL = "http://localhost:8083"; // Puerto de MsEnvio
+    private static final String BASE_URL = "http://ms-envio:8083"; // Puerto de MsEnvio
 
     private final RestClient envioClient;
 

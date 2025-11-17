@@ -9,7 +9,7 @@ import java.util.Locale;
 @Component
 public class GeoApiClient {
 
-    private static final String BASE_URL = "http://localhost:8084/geo";
+    private static final String BASE_URL = "http://ms-geo:8084/geo";
     private final RestClient restClient = RestClient.create();
 
     public Double obtenerDistancia(

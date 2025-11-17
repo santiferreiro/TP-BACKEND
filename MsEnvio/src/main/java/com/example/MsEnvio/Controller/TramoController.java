@@ -55,7 +55,7 @@ public class TramoController {
             @PathVariable String patente,
             @PathVariable Long idContenedor) {
 
-        String respuesta = tramoService.asignarCamionATramo(patente, idContenedor, idTramo);
+        String respuesta = tramoService.asignarCamionATramo(patente, idTramo, idContenedor);
         return ResponseEntity.ok(respuesta);
     }
 
